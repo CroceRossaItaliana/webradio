@@ -1,0 +1,43 @@
+/* 20110518.016 */
+* { margin:0; padding:0; font-family:Arial; }
+body { background:transparent url('/img/gnd.png') 0 0 repeat-x; font-size:12px; line-height:1.8em; }
+a { color:#C00; text-decoration:none; }
+  a:hover, a.active { color:#000; }
+input, select, textarea, td { font-size:12px; }
+img { border:none; }
+
+#menuColumn { float:left; width:180px; background-color:#E1E1E1; border-right:2px solid #C00; }
+  #menu ul { background-color:#E1E1E1; list-style-type:none; }
+    #menu ul a { display:block; color:#000; text-decoration:none; padding:3px 25px; width:130px; background-color:#E1E1E1; border-bottom:1px solid #BBB; }
+      #menu ul a:hover { background-color:#444; color:#FFF; }
+  #menu h4 { border-bottom:1px solid #808080; letter-spacing:6px; font-size:14px; text-align:center; padding-right:10px; }
+  #menu #login { padding-left:15px; margin-bottom:10px; }
+    #menu #login .failed { color:#C00; text-align:center; font-weight:bold; }
+  #menu #systemVersion { text-align:right; font-size:smaller; font-style:italic; color:#666; }
+
+#main { background:#FFF url('/img/mainGnd.jpg') top repeat-x; min-height:500px; margin-left:182px; padding:25px 15px; }
+  #main h1 { border-bottom:1px solid #808080; font-weight:normal; letter-spacing:6px; font-size:150%; text-align:right; }
+  #main h2, #main h3 { border-bottom:1px solid #808080; letter-spacing:6px; font-size:200%; text-align:right; margin:20px 0 5px; }
+  #main div.text div { margin-bottom:10px; }
+  #main div.messageBox { margin:10px; padding:10px; font-weight:bold; font-size:larger; }
+    #main div.messageBoxKo { color:#C00; border:3px double #C00; }
+    #main div.messageBoxOk { color:#88AC0B; border:3px double #88AC0B; }
+  #main form.filter { min-height:1.9em; margin-top:10px; padding:3px; border:1px solid #7699AD; }
+  #main table { margin:10px auto; }
+    #main table tr.rowA { background-color:#E4E4E4; }
+    #main table tr.rowB { background-color:#F4F4F4; }
+      #main table tr.rowA:hover, #main table tr.rowB:hover { background-color:#F99; }
+      #main table tr th { padding:0 5px; text-align:right; vertical-align:middle; font-variant:small-caps; color:#FFF; background-color:#808080; white-space:nowrap; }
+        #main table tr th .tip, .tip { font-size:smaller; font-style:italic; font-weight:normal; line-height:1em; }
+      #main table tr td { padding:0 5px; }
+  #main ul { margin:10px 35px; }
+    #main ul li { }
+  #main .message { width:500px; margin:30px auto; }
+    #main .message .oggetto { background-color:#C00; font-variant:small-caps; color:#FFF; font-weight:bold; font-size:larger; padding:0 3px; }
+    #main .message .data { padding:0 3px; font-style:italic; background-color:#CCC; font-size:smaller; }
+    #main .message .testo { padding:3px; border:1px solid #CCC; }
+  #main .icon { vertical-align:middle; }
+  #main #popupDynamic { position:absolute; border:7px groove #888; background-color:#EEE; z-index:4; }
+    #main #popupDynamic .popupTitle { font-weight:bold; font-size:14px; padding-left:10px; background-color:#CCC; border-bottom:3px solid #888; }
+    #main #popupDynamic .popupMessage { padding:15px; font-size:smaller; }
+  #main #popupDynamicGnd { position:absolute; left:0; background-color:#000; z-index:3; opacity:0.8; filter:alpha(opacity=80); }

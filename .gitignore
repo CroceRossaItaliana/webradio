@@ -1,0 +1,5 @@
+/.htCfg.php
+/stats/*
+/tmp/*s
+*.pdf
+*.bin

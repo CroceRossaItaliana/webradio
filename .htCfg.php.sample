@@ -1,0 +1,132 @@
+<?php
+//20120130.087
+header("Pragma: no-cache");
+header("Cache-Control: no-cache, must-revalidate");
+set_time_limit(0);
+session_start();
+error_reporting(0);
+$PHP_VERSION = "6.00";
+
+/*---------------------------------------------------------------------------
+- Database conncetion
+---------------------------------------------------------------------------*/
+if($_SERVER["SERVER_ADDR"] == "127.0.0.1") {
+  $DBL = new mysqli("localhost", "user", "password", "db");
+} else {
+  $DBL = new mysqli("localhost", "user", "password", "db");
+}
+$DBL->query("SET CHARACTER SET utf8");
+
+
+/*---------------------------------------------------------------------------
+- Load functions
+---------------------------------------------------------------------------*/
+require_once(".htFunctions.php");
+
+
+/*---------------------------------------------------------------------------
+- Login
+---------------------------------------------------------------------------*/
+if($_GET["forceLogout"] == "logout") logMessage("Logout", $_SESSION["Authentication"]["username"]);
+require_once("classes/.htAuthentication.php");
+$LOGIN = new Authentication($_GET["forceLogout"]);
+
+
+/*---------------------------------------------------------------------------
+- Load classes
+---------------------------------------------------------------------------*/
+require_once("classes/.htWiz.php");
+require_once("classes/.htObjects.php");
+require_once("classes/.htMethods.php");
+
+
+/*---------------------------------------------------------------------------
+- Registry
+---------------------------------------------------------------------------*/
+require_once("classes/.htClassRegistry.php");
+$REGISTRY = new Registry();
+
+
+/*---------------------------------------------------------------------------
+- Load taglists
+---------------------------------------------------------------------------*/
+$TAGS_VARIABLES = array(
+  "RADIO_PRODUTTORI" => array("table"=>"modelliRadio", "field"=>"produttore"),
+  "RIPETITORI_PRODUTTORI" => array("table"=>"modelliRipetitore", "field"=>"produttore"),
+  "ANTENNE_PRODUTTORI" => array("table"=>"modelliAntenne", "field"=>"produttore"),
+);
+BasicTable::reloadTagList($TAGS_VARIABLES);
+
+
+/*---------------------------------------------------------------------------
+- Other Variables
+---------------------------------------------------------------------------*/
+$PAGE_TITLE_DEFAULT = "T.L.C.ensus 2010 - Croce Rossa Italiana";
+$SECRET = "secretes";
+$ADMIN_EMAIL = "email";
+
+$PATHS = array(
+  "radioDocs" => "/filez/radioDocs/",
+  "ripetitoriDocs" => "/filez/ripetitoriDocs/",
+  "modelliRadioJpg" => "/filez/modelliRadioJpg/",
+  "modelliAntenneJpg" => "/filez/modelliAntenneJpg/",
+  "modelliRipetitoriJpg" => "/filez/modelliRipetitoriJpg/",
+);
+
+$RADIO_TIPO = array(
+  "1" => "Radio fissa",
+  "2" => "Radio veicolare",
+  "3" => "Radio portatile",
+);
+
+$RADIO_CAPITOLATO = array(
+	"0" => "No",
+	"1" => "Capitolato 1998",
+	"2" => "Capitolato 2010",
+);
+
+$RIPETITORE_TIPO = array(
+  "1" => "Stand alone (singolo)",
+  "2" => "Master ridiffondente di rete isofrequenziale",
+  "3" => "Master non ridiffondente di rete isofrequenziale",
+  "4" => "Master secondario ridiffondente",
+  "5" => "Master secondario non ridiffondente",
+  "6" => "Ripetitore di tratta",
+  "7" => "Slave (satellite)",
+  "8" => "Ripetitore di scorta",
+  "9" => "Ripetitore su mezzo mobile",
+  "10" => "Ripetitore per eventi",
+);
+
+$RIPETITORE_SEZIONE_TIPO = array(
+  "1" => "Sezione VHF",
+  "2" => "Sezione UHF",
+  "3" => "Sezione SHF non lic.",
+);
+
+$RIPETITORE_ALIMENTAZIONE_1 = array(
+  "1" => "Enel",
+  "2" => "Solare",
+  "3" => "Eolico",
+  "4" => "Gruppo elettrogeno",
+);
+
+$RIPETITORE_ALIMENTAZIONE_2 = array(
+  "1" => "Enel",
+  "2" => "Batteria",
+  "3" => "Gruppo elettrogeno",
+);
+
+$ANTENNE_POLARIZZAZIONI = array(
+  "1" => "Orizzontale",
+  "2" => "Verticale",
+);
+
+$MAGLIA_LUNGHEZZA_COLLEGAMENTO = array(
+  "1" => "30 Km",
+  "2" => "60 Km",
+  "3" => "120 Km",
+  "4" => "240 Km",
+  "5" => "Tutto il territorio nazionale",
+);
+?>

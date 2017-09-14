@@ -1,0 +1,21 @@
+/* 20110411.004 */
+* { margin:0; padding:0; font-family:Arial; }
+body { font-size:12px; line-height:1.8em; }
+a { display:none; }
+
+#menuColumn { display:block; float:none; text-align:center; border:none; width:100%; }
+  #menuColumn #menu { display:none; }
+  #menuColumn .logo { display:block; }
+
+#main { margin:0; padding:0; }
+  #main h1 { display:none; }
+  #main h2, #main h3 { border-bottom:1px solid #808080; letter-spacing:6px; font-size:200%; text-align:right; margin:20px 0 5px; }
+  #main div.text div { margin-bottom:10px; }
+  #main form.filter { display:none; }
+  #main table { margin:0; padding:0; }
+    #main table tr { }
+      #main table tr th { text-align:left; }
+      #main table tr td { padding:0 5px; border-bottom:1px solid #000; }
+    #main table .rowLinks { display:none; }
+  #main ul { margin:10px 35px; }
+    #main ul li { }
