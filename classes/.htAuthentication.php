@@ -102,7 +102,7 @@ class Authentication {
     $userData = false;
     $username = stripslashes($username);
     if($username) {
-      $rcUser = $GLOBALS["DBL"]->query("SELECT * FROM users WHERE username='" . $GLOBALS["DBL"]->real_escape_string($username) . "' " . (($password) ? " AND (password='" . sha1(stripslashes($password)) . "' OR token='" . $password . "') AND status=true" : "") . " LIMIT 1")->fetch_assoc();
+      $rcUser = $GLOBALS["DBL"]->query("SELECT * FROM users WHERE username='" . $GLOBALS["DBL"]->real_escape_string($username) . "' " . (($password) ? " AND (password='" . sha1(stripslashes($password)) . "' OR token='" . $GLOBALS["DBL"]->real_escape_string($password) . "') AND status=true" : "") . " LIMIT 1")->fetch_assoc();
       if($rcUser["username"] == $username) {
         $userData = $rcUser;
         $userData["type"] = (int)$rcUser["type"];
