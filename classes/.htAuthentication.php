@@ -1,5 +1,9 @@
 <?php
-//20120506.078
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180315.085
+ */
 
 /*===========================================================================
 - Class: Authentication
@@ -10,20 +14,21 @@ class Authentication {
   private $userTypes = array(
     "0"  => "Guest",
     "1"  => "Amministratore",
-    "2"  => "Comitato centrale",
+    "2"  => "Comitato nazionale",
     "3"  => "Comitato regionale",
     "4"  => "Comitato provinciale",
     "5"  => "Unità CRI",
-  	"6"  => "S.I.E.", //Permessi di Comitato regionale
-  	"7"  => "C.I.E.", //Permessi di Comitato provinciale
-  	"8"  => "Centro Mob.", //Permessi di Comitato provinciale
-  	"9"  => "N.O.P.I.", //Permessi di Comitato provinciale
-    "10" => "Centro di Mobilitazione", //Permessi di Comitato provinciale
+  	 "6"  => "Area Emergenze", //Permessi di Comitato regionale
+  	 "7"  => "C.I.E.", //Permessi di Comitato provinciale
+  	 "8"  => "Centro Mob.", //Permessi di Comitato provinciale
+  	 "9"  => "N.O.P.I.", //Permessi di Comitato provinciale
+    "10" => "Isp. Corpo Militare Volontario", //Permessi di Comitato provinciale
+    "11" => "Commissione TLC", //Permessi da definire
   );
   private $sections = array(
     "Home" => array("title"=>"Home", "types"=>"all"),
-    "AlboOperatoriTLC" => array("title"=>"Albo Operatori TLC", "types"=>"all"),
-  	"Utenti" => array("title"=>"Utenti", "types"=>array(1)),
+    "AlboOperatoriTLC" => array("title"=>"Albo Operatori TLC", "types"=>"login"),
+  	 "Utenti" => array("title"=>"Utenti", "types"=>array(1)),
     "Radio" => array("title"=>"Radio", "types"=>array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)),
     "Ripetitori" => array("title"=>"Ripetitori", "types"=>array(0, 1, 2, 3, 4, 6, 7, 8, 9, 10)),
     "Mappa" => array("title"=>"Mappa", "types"=>array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)),
@@ -36,8 +41,6 @@ class Authentication {
     "ModalitaSincronizzazione" => array("title"=>"Modalità Sincronizzazione", "types"=>array(1)),
     "Maglie" => array("title"=>"Maglie Radio", "types"=>array(1)),
     "Canali" => array("title"=>"Canali VHF", "types"=>array(1)),
-    "TermineCompilazione" => array("title"=>"Termine Compilazione", "types"=>array()),
-    "StatoCompilazione" => array("title"=>"Stato Compilazione", "types"=>array(1, 2)),
     "LogAccessi" => array("title"=>"Log Accessi", "types"=>array(1)),
     "ProfiloUtente" => array("title"=>"Profilo Utente", "types"=>"login"),
     "Messaggi" => array("title"=>"Messaggi", "types"=>array(1)),
@@ -46,10 +49,10 @@ class Authentication {
     "SegnalazioneInterferenze" => array("title"=>"Segnalazione interferenze", "types"=>array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)),
     "CodiciCentralizzatiEmergenze" => array("title"=>"Codici centralizzati ed emergenze", "types"=>array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)),
     //"IscrizioneCorsoFormatoriTLC" => array("title"=>"Iscrizione Corso Formatori TLC", "types"=>array(1)),
-  	"Cerca" => array("types"=>"login", "hideFromMenu"=>true),
+  	 "Cerca" => array("types"=>"login", "hideFromMenu"=>true),
     "CambiaPassword" => array("title"=>"Cambia password", "types"=>"login"),
-  	"Info" => array("title"=>"Info", "types"=>"login"),
-  	"Ajax" => array("types"=>"all", "hideFromMenu"=>true),
+  	 "Info" => array("title"=>"Info", "types"=>"login"),
+  	 "Ajax" => array("types"=>"all", "hideFromMenu"=>true),
   );
   protected $userData = array();
 
