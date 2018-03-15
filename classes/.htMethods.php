@@ -1,5 +1,9 @@
 <?php
-//20110218.015
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180315.016
+ */
 
 /*===========================================================================
 - Class: Methods
@@ -10,9 +14,14 @@ class Methods {
   ---------------------------------------------------------------------------*/
   public static function getPosizioneFormat($posizione, $altitudine) {
     if($posizione) {
-      $posizione = $GLOBALS["DBL"]->query("SELECT X(0x" . bin2hex($posizione) . ") AS x, Y(0x" . bin2hex($posizione) . ") AS y")->fetch_assoc();
-      $posizione["x"] = Fields::decimalToSexagesimal($posizione["x"]);
-      $posizione["y"] = Fields::decimalToSexagesimal($posizione["y"]);
+      $posizione = $GLOBALS["DBL"]->query("SELECT X(0x" . bin2hex($posizione) . ") AS x, Y(0x" . bin2hex($posizione) . ") AS y");
+      if($posizione) {
+        $posizione = $posizione->fetch_assoc();
+        if($posizione) {
+          $posizione["x"] = Fields::decimalToSexagesimal($posizione["x"]);
+          $posizione["y"] = Fields::decimalToSexagesimal($posizione["y"]);
+        }
+      }
     }
     return array(
       "htmlCode" => "Lat: " . $posizione["y"]["d"] . "° " . $posizione["y"]["m"] . "' " . sprintf("%0.1f", $posizione["y"]["s"]) . "&quot;; Long: " . $posizione["x"]["d"] . "° " . $posizione["x"]["m"] . "' " . sprintf("%0.1f", $posizione["x"]["s"]) . "&quot;; Alt: " . $altitudine . "m",
