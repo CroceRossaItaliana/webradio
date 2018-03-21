@@ -1,5 +1,9 @@
 <?php
-//20120212.132
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180321.133
+ */
 
 /*===========================================================================
 - Class: Objects
@@ -237,6 +241,7 @@ class Objects {
       "id" => array("type"=>"hidden", "idField"=>true),
       "dataMessaggio" => array("name"=>"Data", "type"=>"date", "mandatory"=>true),
       "destinatario" => array("name"=>"Destinatario", "tip"=>"Per inviare il messaggio a tutti gli utenti inserire il carattere <b>*</b>", "size"=>30, "maxlen"=>30, "mandatory"=>true),
+      "requireLogin" => array("name"=>"Richiede login", "type"=>"select", "mandatory"=>true, "values"=>BasicTable::$basicStatus),
       "oggetto" => array("name"=>"Oggetto", "size"=>60, "maxlen"=>150, "mandatory"=>true),
       "testo" => array("name"=>"Testo", "type"=>"textarea", "cols"=>50, "rows"=>5),
     );

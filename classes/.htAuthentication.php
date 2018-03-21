@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180320.086
+ * @version 20180321.087
  */
 
 /*===========================================================================
@@ -63,6 +63,7 @@ class Authentication {
     if($forceLogout == "logout") {
       $this->forceLogout = true;
       session_unset();
+      jsRedirect("/");
     }
     $this->login();
   }
