@@ -1,5 +1,10 @@
 <?php
-//20110131.001
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180321.003
+ */
+
 $PAGE_TITLE = "Messaggi";
 
 $FIELDS = Objects::getMessaggiFields();
@@ -62,6 +67,7 @@ switch($_REQUEST["cmd2"]) {
         "id" => array("name"=>"ID", "type"=>"field", "hideColumn"=>true),
         "dataMessaggio" => array("name"=>"Data", "type"=>"field"),
         "destinatario" => array("name"=>"Destinatario", "type"=>"field"),
+        "requireLogin" => array("name"=>"Login", "type"=>"arrayIndex", "values"=>BasicTable::$basicStatus),
         "oggetto" => array("name"=>"Oggetto", "type"=>"field"),
       ),
       "table" => $TABLE,

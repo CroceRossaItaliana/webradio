@@ -1,5 +1,17 @@
 <?php
-//20120212.068
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180321.071
+ */
+
+function dbEsc($string) {
+  return $GLOBALS["DBL"]->real_escape_string($string);
+}
+
+function jsRedirect($url) {
+  die("<script type='text/javascript'>location.href='" . $url . "'</script>");
+}
 
 function getModelliRadio() {
   if(($_SESSION["CACHE_TIMERS"]["ModelliRadio"] < $GLOBALS["REGISTRY"]->getValue("lastModelliRadioChange")) || !isset($_SESSION["CACHE_MODELLI_RADIO"]) || !is_array($_SESSION["CACHE_MODELLI_RADIO"])) {
