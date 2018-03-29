@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180321.133
+ * @version 20180329.134
  */
 
 /*===========================================================================
@@ -17,7 +17,7 @@ class Objects {
     $fields = array(
       "username" => array("name"=>"Username", "tip"=>"Usare solo caratteri alfanumerici minuscoli, senza spazi", "size"=>15, "maxlen"=>30, "regexp"=>"/^[a-z0-9.]*$/", "mandatory"=>true, "readonlyOnEdit"=>true, "idField"=>true),
       "password" => array("name"=>"Password", "type"=>"password", "size"=>15, "maxlen"=>15, "mandatoryOnCreate"=>true),
-      "type" => array("name"=>"Tipo", "type"=>"select", "mandatory"=>true, "values"=>$GLOBALS["LOGIN"]->getUserTypes(), "readonlyOnEdit"=>true),
+      "type" => array("name"=>"Tipo", "type"=>"select", "mandatory"=>true, "values"=>$GLOBALS["LOGIN"]->getUserTypes()),
       "referenceUser" => array("name"=>"Comitato di riferimento", "type"=>"select", "values"=>getUnitaCri("type IN(2, 3, 4, 6, 7, 8, 9, 10)")),
       "realName" => array("name"=>"Nome", "size"=>30, "maxlen"=>30, "mandatory"=>true),
       "maglia" => array("name"=>"Maglia", "type"=>"checkbox", "values"=>getElencoMaglie()),
