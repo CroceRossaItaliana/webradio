@@ -1,5 +1,10 @@
 <?php
-//20110907.050
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180329.052
+ */
+
 $PAGE_TITLE = "Radio";
 
 $FIELDS = Objects::getRadioFields();
@@ -101,7 +106,7 @@ switch($_REQUEST["cmd2"]) {
     header("Cache-control: ");
     header("Content-type: text/csv");
     header("Content-Disposition: inline; filename=\"radio.csv\"");
-    echo(utf8_decode("Maglia\tMatricola\tTipo\tLocalità\tPosizione e altitudine\tID Ripetitore\tModello Radio\tModello Antenna\tSigla Radio\tNumero Inventario\tTarga Automezzo\tUtilizzatore\tCcontratto Assistenza\tRiferimento Assistenza\tNote\n"));
+    echo(utf8_decode("Maglia\tUnità di appartenenza\tMatricola\tTipo\tLocalità\tPosizione e altitudine\tID Ripetitore\tModello Radio\tModello Antenna\tSigla Radio\tNumero Inventario\tTarga Automezzo\tUtilizzatore\tCcontratto Assistenza\tRiferimento Assistenza\tNote\n"));
     $rs = $DBL->query("SELECT * FROM " . $TABLE . " WHERE " . $WHERE);
     while($rc = $rs->fetch_object()) {
       $posizioneAltitudine = Methods::getPosizioneFormat($rc->posizione, $rc->altitudine);
@@ -111,7 +116,7 @@ switch($_REQUEST["cmd2"]) {
       $rc->modelloRadio = $rc->modelloRadio["produttore"] . " - " . $rc->modelloRadio["modello"];
       $rc->modelloAntenna = getAntennaById($rc->modelloAntenna);
       $rc->modelloAntenna = $rc->modelloAntenna["produttore"] . " - " . $rc->modelloAntenna["modello"];
-      echo(utf8_decode(escapeCsv(getMagliaById($rc->maglia)) . "\t" . escapeCsv($rc->matricola) . "\t" . escapeCsv($RADIO_TIPO[$rc->tipo]) . "\t" . escapeCsv($rc->localita) . "\t" . escapeCsv(html_entity_decode($posizioneAltitudine["htmlCode"])) . "\t" . escapeCsv($ripetitore) . "\t" . escapeCsv($rc->modelloRadio) . "\t" . escapeCsv($rc->modelloAntenna) . "\t" . escapeCsv($rc->siglaRadio) . "\t" . escapeCsv($rc->numeroInventario) . "\t" . escapeCsv($rc->targaAutomezzo) . "\t" . escapeCsv($rc->utilizzatore) . "\t" . escapeCsv($rc->contrattoAssistenza) . "\t" . escapeCsv($rc->riferimentoAssistenza) . "\t" . escapeCsv($rc->note) . "\n"));
+      echo(utf8_decode(escapeCsv(getMagliaById($rc->maglia)) . "\t" . escapeCsv($rc->unitaCri) . "\t" . escapeCsv($rc->matricola) . "\t" . escapeCsv($RADIO_TIPO[$rc->tipo]) . "\t" . escapeCsv($rc->localita) . "\t" . escapeCsv(html_entity_decode($posizioneAltitudine["htmlCode"])) . "\t" . escapeCsv($ripetitore) . "\t" . escapeCsv($rc->modelloRadio) . "\t" . escapeCsv($rc->modelloAntenna) . "\t" . escapeCsv($rc->siglaRadio) . "\t" . escapeCsv($rc->numeroInventario) . "\t" . escapeCsv($rc->targaAutomezzo) . "\t" . escapeCsv($rc->utilizzatore) . "\t" . escapeCsv($rc->contrattoAssistenza) . "\t" . escapeCsv($rc->riferimentoAssistenza) . "\t" . escapeCsv($rc->note) . "\n"));
     }
     die();
     break;
