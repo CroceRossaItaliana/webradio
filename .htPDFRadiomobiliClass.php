@@ -1,5 +1,10 @@
 <?php
-//20110517.009
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180329.010
+ */
+
 /*===========================================================================
 - CLASS PDF
 ===========================================================================*/
@@ -26,10 +31,11 @@ class PDF extends FPDF {
   - Function: Header()
   ---------------------------------------------------------------------------*/
   function Header() {
-    $this->SetXY(15, 15);
-    $this->SetFont("Times", "B", 28);
-    $this->Cell(600, 32, "Scheda riepilogativa Radiomobile", "1");
-    $this->SetXY(15, 70);
+    $this->Image("img/logo.jpg", 20, 15, 50);
+    $this->SetXY(77, 25);
+    $this->SetFont("Arial", "B", 28);
+    $this->MultiCell(600, 32, utf8_decode("Scheda riepilogativa Radiomobile"));
+    $this->SetXY(15, 80);
   }
 
   /*---------------------------------------------------------------------------
@@ -124,7 +130,7 @@ class PDF extends FPDF {
         $this->Ln();
       }
       $this->SetFont("Times", "", 10);
-      $rowY = 73 + 15 + (11 * 2 * $row);
+      $rowY = 83 + 15 + (11 * 2 * $row);
 
       //Colonna 1
       $this->SetXY(15, $rowY);
@@ -181,7 +187,7 @@ class PDF extends FPDF {
         $this->Ln();
       }
       $this->SetFont("Times", "", 10);
-      $rowY = 73 + 15 + (11 * 2 * $row);
+      $rowY = 83 + 15 + (11 * 2 * $row);
 
       //Colonna 1
       $this->SetXY(15, $rowY);

@@ -1,5 +1,10 @@
 <?php
-//20110517.050
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180329.051
+ */
+
 /*===========================================================================
 - CLASS PDF
 ===========================================================================*/
@@ -49,15 +54,14 @@ class PDF extends FPDF {
   - Function: Header()
   ---------------------------------------------------------------------------*/
   function Header() {
-    $this->SetXY(15, 15);
-    $this->SetFont("Times", "BI", 10);
-    $this->Cell(300, 14, utf8_decode("Maglia:"), "LT");
-    $this->Cell(300, 14, utf8_decode("Pratica n° " . $this->magliaDati->numeroAutorizzazione), "TR", 0, "R");
-    $this->Ln();
-    $this->SetX(15);
-    $this->SetFont("Times", "B", 28);
-    $this->Cell(600, 32, " " . utf8_decode(strtoupper($this->magliaDati->provincia)), "LBR");
-    $this->SetXY(15, 70);
+    $this->Image("img/logo.jpg", 20, 15, 50);
+    $this->SetXY(77, 25);
+    $this->SetFont("Arial", "B", 28);
+    $this->MultiCell(600, 14, utf8_decode("Maglia: " . $this->magliaDati->provincia));
+    $this->SetFont("Arial", "B", 12);
+    $this->SetXY(77, 48);
+    $this->Cell(600, 14, utf8_decode("Pratica n° " . $this->magliaDati->numeroAutorizzazione));
+    $this->SetXY(15, 80);
   }
 
   /*---------------------------------------------------------------------------
@@ -327,7 +331,7 @@ class PDF extends FPDF {
         $this->Ln();
       }
       $this->SetFont("Times", "", 10);
-      $rowY = 73 + 15 + (12 * 3 * $row);
+      $rowY = 83 + 15 + (12 * 3 * $row);
 
       //Colonna 1
       $this->SetXY(15, $rowY);
@@ -510,7 +514,7 @@ class PDF extends FPDF {
   - Function: drawRipetitoriHeader()
   ---------------------------------------------------------------------------*/
   function drawRipetitoriHeader($columns) {
-    $rowY = 73 + 15 + 10;
+    $rowY = 83 + 15 + 10;
     $this->AddPage();
     $this->SetLeftMargin(15);
     $this->SetFont("Times", "BI", 14);
