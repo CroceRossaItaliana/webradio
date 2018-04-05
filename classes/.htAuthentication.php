@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180321.087
+ * @version 20180405.088
  */
 
 /*===========================================================================
@@ -48,6 +48,7 @@ class Authentication {
     "ElencoSedi" => array("title"=>"Elenco Sedi", "types"=>array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)),
     "SegnalazioneInterferenze" => array("title"=>"Segnalazione interferenze", "types"=>array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)),
     "CodiciCentralizzatiEmergenze" => array("title"=>"Codici centralizzati ed emergenze", "types"=>array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)),
+    "RichiestaRipetitoriTemporanei" => array("title"=>"Richiesta ripetitori temporanei", "types"=>array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)),
     //"IscrizioneCorsoFormatoriTLC" => array("title"=>"Iscrizione Corso Formatori TLC", "types"=>array(1)),
   	 "Cerca" => array("types"=>"login", "hideFromMenu"=>true),
     "CambiaPassword" => array("title"=>"Cambia password", "types"=>"login"),
