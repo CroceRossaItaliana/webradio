@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180405.088
+ * @version 20180406.090
  */
 
 /*===========================================================================
@@ -11,19 +11,19 @@
 ===========================================================================*/
 class Authentication {
   private $forceLogout = false;
-  private $userTypes = array(
+  private $userTypes = array( //Vedi setObjectFilter()
     "0"  => "Guest",
     "1"  => "Amministratore",
     "2"  => "Comitato nazionale",
     "3"  => "Comitato regionale",
     "4"  => "Comitato provinciale",
     "5"  => "Unità CRI",
-  	 "6"  => "Area Emergenze", //Permessi di Comitato regionale
-  	 "7"  => "C.I.E.", //Permessi di Comitato provinciale
-  	 "8"  => "Centro Mob.", //Permessi di Comitato provinciale
-  	 "9"  => "N.O.P.I.", //Permessi di Comitato provinciale
+    "6"  => "Area Emergenze", //Permessi di Comitato regionale
+    "7"  => "C.I.E.", //Permessi di Comitato provinciale
+    "8"  => "Centro Mob.", //Permessi di Comitato provinciale
+    "9"  => "N.O.P.I.", //Permessi di Comitato provinciale
     "10" => "Isp. Corpo Militare Volontario", //Permessi di Comitato provinciale
-    "11" => "Commissione TLC", //Permessi da definire
+    "11" => "Commissione TLC", //Permessi di Unità CRI
   );
   private $sections = array(
     "Home" => array("title"=>"Home", "types"=>"all"),
