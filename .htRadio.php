@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180329.052
+ * @version 20180406.054
  */
 
 $PAGE_TITLE = "Radio";
@@ -26,17 +26,15 @@ switch($_REQUEST["cmd2"]) {
       "where" => $WHERE,
     );
     $old = BasicTable::getOldData($config);
-    if(!is_array($old)) {
-      $_REQUEST["cmd2"] = "add";
-    }
+    if(!is_array($old)) jsRedirect("/");
     //continue...
 
   case "add":
+    if(!isActionAllowed("radio")) jsRedirect("/");
     if(in_array($_REQUEST["cmd2"], array("add", "edit"))) {
       $FIELDS["ripetitoreId"]["type"] = "select";
     }
     if($_REQUEST["cmd2"] == "edit") {
-      if(!isObjectEditable("radio", $_GET["id"])) die("Err. 873628472378");
       $FIELDS["ripetitoreId"]["values"] = array();
       $rsRip = $DBL->query("SELECT id, numero, localitaCollegata FROM ripetitori WHERE maglia=" . $old["maglia"]);
       while($rcRip = $rsRip->fetch_object()) {
@@ -67,7 +65,6 @@ switch($_REQUEST["cmd2"]) {
     break;
 
   case "save":
-    if($LOGIN->getUserData("compilazioneCompletata")) die(".");
     $extraQuerySet = "ultimaModificaData=NOW(), ultimaModificaUser='" . $DBL->real_escape_string(stripslashes($LOGIN->getUserData("username"))) . "'" . (($extraQuerySet) ? (", " . $extraQuerySet) : "");
     $config = array(
       "idField" => BasicTable::getIdField($FIELDS),
@@ -87,8 +84,7 @@ switch($_REQUEST["cmd2"]) {
     break;
 
   case "del":
-    if(!isObjectEditable("radio", $_GET["id"])) die("Err. 873628472378");
-    if($LOGIN->getUserData("compilazioneCompletata")) die(".");
+    if(!isActionAllowed("radio")) jsRedirect("/");
     $config = array(
       "idValue" => $_GET["id"],
       "idField" => BasicTable::getIdField($FIELDS),
@@ -144,9 +140,9 @@ switch($_REQUEST["cmd2"]) {
         "tipo" => array("name"=>"Tipo", "type"=>"select", "values"=>$RADIO_TIPO, "query"=>"tipo='%%value%%'", "width"=>150),
       ),
       "defaultOrder" => array("col"=>"id", "dir"=>"DESC"),
-      "disableCreate" => $LOGIN->getUserData("compilazioneCompletata"),
-      "disableEdit" => $LOGIN->getUserData("compilazioneCompletata")  . " || !isObjectEditable(\"radio\", %object%->id)",
-      "disableDelete" => $LOGIN->getUserData("compilazioneCompletata")  . " || !isObjectEditable(\"radio\", %object%->id)",
+      "disableCreate" => !isActionAllowed("radio"),
+      "disableEdit" => !isActionAllowed("radio"),
+      "disableDelete" => !isActionAllowed("radio"),
     );
     $PAGE_CONTENT .= BasicTable::getTable($config);
     break;

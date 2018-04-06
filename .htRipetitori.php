@@ -1,5 +1,10 @@
 <?php
-//20110507.041
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180406.043
+ */
+
 $PAGE_TITLE = "Ripetitori";
 
 $FIELDS = Objects::getRipetitoriFields();
@@ -21,15 +26,11 @@ switch($_REQUEST["cmd2"]) {
       "where" => $WHERE,
     );
     $old = BasicTable::getOldData($config);
-    if(!is_array($old)) {
-      $_REQUEST["cmd2"] = "add";
-    }
+    if(!is_array($old)) jsRedirect("/");
     //continue...
 
   case "add":
-    if($_REQUEST["cmd2"] == "edit") {
-      if(!isObjectEditable("ripetitori", $_GET["id"])) die("Err. 6784563564");
-    }
+    if(!isActionAllowed("ripetitori")) jsRedirect("/");
     $config = array(
       "title" => ucwords(BasicTable::$actions[$_REQUEST["cmd2"]]) . " Ripetitore",
       "jsCheckForm" => "ADMIN.validateObject('Ripetitori', '" . $_REQUEST["cmd2"] . "')",
@@ -45,7 +46,6 @@ switch($_REQUEST["cmd2"]) {
     break;
 
   case "save":
-    if($LOGIN->getUserData("compilazioneCompletata")) die(".");
     $extraQuerySet = "ultimaModificaData=NOW(), ultimaModificaUser='" . $DBL->real_escape_string(stripslashes($LOGIN->getUserData("username"))) . "'" . (($extraQuerySet) ? (", " . $extraQuerySet) : "");
     $config = array(
       "idField" => BasicTable::getIdField($FIELDS),
@@ -61,8 +61,7 @@ switch($_REQUEST["cmd2"]) {
     break;
 
   case "del":
-    if(!isObjectEditable("ripetitori", $_GET["id"])) die("Err. 6784563564");
-    if($LOGIN->getUserData("compilazioneCompletata")) die(".");
+    if(!isActionAllowed("ripetitori")) jsRedirect("/");
     $config = array(
       "idValue" => $_GET["id"],
       "idField" => BasicTable::getIdField($FIELDS),
@@ -128,9 +127,9 @@ switch($_REQUEST["cmd2"]) {
         "tipo" => array("name"=>"Tipo", "type"=>"select", "values"=>$RIPETITORE_TIPO, "query"=>"tipo='%%value%%'", "width"=>250),
       ),
       "defaultOrder" => array("col"=>"id", "dir"=>"DESC"),
-      "disableCreate" => $LOGIN->getUserData("compilazioneCompletata"),
-      "disableEdit" => $LOGIN->getUserData("compilazioneCompletata")  . " || !isObjectEditable(\"ripetitori\", %object%->id)",
-      "disableDelete" => $LOGIN->getUserData("compilazioneCompletata")  . " || !isObjectEditable(\"ripetitori\", %object%->id)",
+      "disableCreate" => !isActionAllowed("ripetitori"),
+      "disableEdit" => !isActionAllowed("ripetitori"),
+      "disableDelete" => !isActionAllowed("ripetitori"),
     );
     $PAGE_CONTENT .= BasicTable::getTable($config);
     break;

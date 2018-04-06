@@ -1,5 +1,10 @@
 <?php
-//20110206.012
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180406.014
+ */
+
 $DOC_SECTIONS = array(
   "Radio" => array(
     "table" => "radio",
@@ -38,11 +43,11 @@ $PAGE_CONTENT = "<h1>Documenti " . $_GET["type"] . " - " . $rcDocSource->fieldNa
   if(!is_dir($docDir)) {
     mkdir($docDir, 0755, true);
   }
-  if(file_exists($_FILES["doc"]["tmp_name"]) && (!$LOGIN->isGuest() && !$LOGIN->getUserData("compilazioneCompletata"))) {
+  if(file_exists($_FILES["doc"]["tmp_name"]) && !$LOGIN->isGuest()) {
     copy($_FILES["doc"]["tmp_name"], $docDir . base64_encode($_FILES["doc"]["name"]) . ".bin");
     logMessage("Aggiunto file " . $PATHS[$DOC_SECTIONS[$_GET["type"]]["table"] . "Docs"] . $_GET["id"] . "/" . $_FILES["doc"]["name"]);
   }
-  if($_GET["del"] && ($_GET["crc"] == sha1($_GET["del"] . ".bin" . $SECRET)) && file_exists($docDir . $_GET["del"] . ".bin") && !$LOGIN->isGuest() && !$LOGIN->getUserData("compilazioneCompletata")) {
+  if($_GET["del"] && ($_GET["crc"] == sha1($_GET["del"] . ".bin" . $SECRET)) && file_exists($docDir . $_GET["del"] . ".bin") && !$LOGIN->isGuest()) {
     unlink($docDir . $_GET["del"] . ".bin");
     logMessage("Cancellato file " . $PATHS[$DOC_SECTIONS[$_GET["type"]]["table"] . "Docs"] . $_GET["id"] . "/" . base64_decode($_GET["del"]));
   }
@@ -63,7 +68,7 @@ $PAGE_CONTENT = "<h1>Documenti " . $_GET["type"] . " - " . $rcDocSource->fieldNa
           <td>" . $realFilename . "</td>
           <td>
             <a href='" . $_SERVER["SCRIPT_NAME"] . "?cmd=Docs&amp;type=" . $_GET["type"] . "&amp;id=" . $_GET["id"] . "&amp;download=" . substr($file, 0, -4) . "&amp;crc=" . sha1($file . $SECRET) . "' target='_blank' title='Scarica documento'><img src='img/icons/download.png' alt='Scarica documento' class='icon' /></a>
-            " . ($LOGIN->isGuest() || ($LOGIN->getUserData("compilazioneCompletata")) ? "" : "<a href=\"javascript:if(confirm('Eliminare il documento?')) location.href='" . $_SERVER["SCRIPT_NAME"] . "?cmd=Docs&amp;type=" . $_GET["type"] . "&amp;id=" . $_GET["id"] . "&amp;del=" . substr($file, 0, -4) . "&amp;crc=" . sha1($file . $SECRET) . "';\" title='Elimina documento'><img src='img/icons/delete.png' alt='Elimina documento' class='icon' /></a>") . "
+            " . ($LOGIN->isGuest() ? "" : "<a href=\"javascript:if(confirm('Eliminare il documento?')) location.href='" . $_SERVER["SCRIPT_NAME"] . "?cmd=Docs&amp;type=" . $_GET["type"] . "&amp;id=" . $_GET["id"] . "&amp;del=" . substr($file, 0, -4) . "&amp;crc=" . sha1($file . $SECRET) . "';\" title='Elimina documento'><img src='img/icons/delete.png' alt='Elimina documento' class='icon' /></a>") . "
           </td>
         </tr>\n";
       }
@@ -71,7 +76,7 @@ $PAGE_CONTENT = "<h1>Documenti " . $_GET["type"] . " - " . $rcDocSource->fieldNa
     closedir($dh);
   }
 
-  if(!$LOGIN->isGuest() && !$LOGIN->getUserData("compilazioneCompletata")) {
+  if(!$LOGIN->isGuest()) {
     $PAGE_CONTENT .= "<tr>
       <td colspan='2'>
         <form method='post' action='" . $_SERVER["SCRIPT_NAME"] . "?cmd=Docs&amp;type=" . $_GET["type"] . "&amp;id=" . $_GET["id"] . "' enctype='multipart/form-data'>

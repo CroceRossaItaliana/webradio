@@ -1,5 +1,10 @@
 <?php
-//20110507.030
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180406.032
+ */
+
 list($filtroUnitaCri, $unitaCriValues, $WHERE, $extraQuerySet) = setObjectFilter();
 if($_REQUEST["idRipetitore"] && is_numeric($_REQUEST["idRipetitore"])) {
   $rsRipetitore = $DBL->query("SELECT id, tipo, localitaCollegata FROM ripetitori WHERE id=" . $_REQUEST["idRipetitore"] . " AND " . $WHERE);
@@ -27,15 +32,11 @@ switch($_REQUEST["cmd2"]) {
       "where" => $WHERE,
     );
     $old = BasicTable::getOldData($config);
-    if(!is_array($old)) {
-      $_REQUEST["cmd2"] = "add";
-    }
+    if(!is_array($old)) jsRedirect("/");
     //continue...
 
   case "add":
-    if($_REQUEST["cmd2"] == "edit") {
-      if(!isObjectEditable("ripetitoriSezioni", $_GET["id"])) die("Err. 745674564");
-    }
+    if(!isActionAllowed("ripetitoriSezioni")) jsRedirect("/");
     $config = array(
       "title" => ucwords(BasicTable::$actions[$_REQUEST["cmd2"]]) . " Sezione del Ripetitore",
       "jsCheckForm" => "ADMIN.validateObject('RipetitoriSezioni', '" . $_REQUEST["cmd2"] . "')",
@@ -49,7 +50,6 @@ switch($_REQUEST["cmd2"]) {
     break;
 
   case "save":
-    if($LOGIN->getUserData("compilazioneCompletata")) die(".");
     $FIELDS["idRipetitore"]["manualQuery"] = true;
     $config = array(
       "idField" => BasicTable::getIdField($FIELDS),
@@ -66,8 +66,7 @@ switch($_REQUEST["cmd2"]) {
     break;
 
   case "del":
-    if(!isObjectEditable("ripetitoriSezioni", $_GET["id"])) die("Err. 745674564");
-    if($LOGIN->getUserData("compilazioneCompletata")) die(".");
+    if(!isActionAllowed("ripetitoriSezioni")) jsRedirect("/");
     $config = array(
       "idValue" => $_GET["id"],
       "idField" => BasicTable::getIdField($FIELDS),
@@ -98,9 +97,9 @@ switch($_REQUEST["cmd2"]) {
       "table" => $TABLE,
       "where" => $WHERE,
       "defaultOrder" => array("col"=>"id", "dir"=>"DESC"),
-      "disableCreate" => $LOGIN->getUserData("compilazioneCompletata"),
-      "disableEdit" => $LOGIN->getUserData("compilazioneCompletata")  . " || !isObjectEditable(\"ripetitoriSezioni\", %object%->id)",
-      "disableDelete" => $LOGIN->getUserData("compilazioneCompletata")  . " || !isObjectEditable(\"ripetitoriSezioni\", %object%->id)",
+      "disableCreate" => !isActionAllowed("ripetitoriSezioni"),
+      "disableEdit" => !isActionAllowed("ripetitoriSezioni"),
+      "disableDelete" => !isActionAllowed("ripetitoriSezioni"),
       "disablePagination" => true,
       "linkParams" => array("idRipetitore"),
     );

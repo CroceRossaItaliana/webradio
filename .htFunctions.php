@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180321.071
+ * @version 20180406.073
  */
 
 function dbEsc($string) {
@@ -207,6 +207,7 @@ function setObjectFilter() {
       $where = "unitaCri IN(" . implode(",", getUnitaCri($filtroUnitaCri, true)) . ")";
       break;
     case "5": //Unità CRI
+    case "11": //Commissione TLC
     default:
       $where = "unitaCri='" . $escapedUsername . "'";
       $extraQuerySet = "unitaCri='" . $escapedUsername . "'";
@@ -235,14 +236,20 @@ function escapeCsv($string) {
   return "\"" . str_replace("\"", "\"\"", trim($string)) . "\"";
 }
 
-function isObjectEditable($type, $id) {
-  return true;
-  if($GLOBALS["LOGIN"]->getUserData("type") == "1") return true;
-  $limits = array(
-    "radio" => 20000,
-    "ripetitori" => 1000,
-    "ripetitoriSezioni" => 2000,
-  );
-  return ($id > $limits[$type]);
+function isActionAllowed($type) {
+  $userType = $GLOBALS["LOGIN"]->getUserData("type");
+  if($userType == "1") return true; //Amministratore
+
+  switch($type) {
+    case "ripetitori":
+    case "ripetitoriSezioni":
+      if($userType == 2) return true; //Comitato nazionale
+      if($userType == 10) return true; //Isp. Corpo Militare Volontario
+      break;
+    case "radio":
+      return true;
+      break;
+  }
+  return false;
 }
 ?>
