@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180406.054
+ * @version 20180508.058
  */
 
 $PAGE_TITLE = "Radio";
@@ -102,7 +102,7 @@ switch($_REQUEST["cmd2"]) {
     header("Cache-control: ");
     header("Content-type: text/csv");
     header("Content-Disposition: inline; filename=\"radio.csv\"");
-    echo(utf8_decode("Maglia\tUnità di appartenenza\tMatricola\tTipo\tLocalità\tPosizione e altitudine\tID Ripetitore\tModello Radio\tModello Antenna\tSigla Radio\tNumero Inventario\tTarga Automezzo\tUtilizzatore\tCcontratto Assistenza\tRiferimento Assistenza\tNote\n"));
+    echo(utf8_decode("Maglia\tUnità di appartenenza\tMatricola\tTipo\tLocalità\tPosizione e altitudine\tID Ripetitore\tModello Radio\tModello Antenna\tSigla Radio\tNumero Inventario\tTarga Automezzo\tUtilizzatore\tContratto Assistenza\tRiferimento Assistenza\tNote\n"));
     $rs = $DBL->query("SELECT * FROM " . $TABLE . " WHERE " . $WHERE);
     while($rc = $rs->fetch_object()) {
       $posizioneAltitudine = Methods::getPosizioneFormat($rc->posizione, $rc->altitudine);
@@ -114,6 +114,26 @@ switch($_REQUEST["cmd2"]) {
       $rc->modelloAntenna = $rc->modelloAntenna["produttore"] . " - " . $rc->modelloAntenna["modello"];
       echo(utf8_decode(escapeCsv(getMagliaById($rc->maglia)) . "\t" . escapeCsv($rc->unitaCri) . "\t" . escapeCsv($rc->matricola) . "\t" . escapeCsv($RADIO_TIPO[$rc->tipo]) . "\t" . escapeCsv($rc->localita) . "\t" . escapeCsv(html_entity_decode($posizioneAltitudine["htmlCode"])) . "\t" . escapeCsv($ripetitore) . "\t" . escapeCsv($rc->modelloRadio) . "\t" . escapeCsv($rc->modelloAntenna) . "\t" . escapeCsv($rc->siglaRadio) . "\t" . escapeCsv($rc->numeroInventario) . "\t" . escapeCsv($rc->targaAutomezzo) . "\t" . escapeCsv($rc->utilizzatore) . "\t" . escapeCsv($rc->contrattoAssistenza) . "\t" . escapeCsv($rc->riferimentoAssistenza) . "\t" . escapeCsv($rc->note) . "\n"));
     }
+    die();
+    break;
+
+  case "pdf":
+    require(".htPDFElencoRadioClass.php");
+    $pdf = new PDF("L", "pt", "A4");
+    $pdf->AliasNbPages();
+    $pdf->SetAutoPageBreak(false);
+    $pdf->SetAuthor("Croce Rossa Italiana", true);
+    $pdf->SetCreator("Croce Rossa Italiana", true);
+    $pdf->SetSubject("Elenco Radio", true);
+    $pdf->SetTitle("Elenco Radio", true);
+
+    //Genera elenco radio
+    $pdf->drawRadio($WHERE);
+
+    //Butta fuori PDF
+    $pdf->Output();
+
+    logMessage("Generato elenco radio PDF");
     die();
     break;
 
@@ -149,6 +169,7 @@ switch($_REQUEST["cmd2"]) {
 }
 $PAGE_CONTENT .= "<div>
   <a href='" . $_SERVER["SCRIPT_NAME"] . "?cmd=" . $_REQUEST["cmd"] . "'>Torna all'elenco delle radio</a><br />
-  <a href='" . $_SERVER["SCRIPT_NAME"] . "?cmd=" . $_REQUEST["cmd"] . "&amp;cmd2=download' target='_blank'>Scarica l'elenco delle radio</a><br />
+  <a href='" . $_SERVER["SCRIPT_NAME"] . "?cmd=" . $_REQUEST["cmd"] . "&amp;cmd2=download' target='_blank'>Scarica l'elenco delle radio in formato CSV</a><br />
+  <a href='" . $_SERVER["SCRIPT_NAME"] . "?cmd=" . $_REQUEST["cmd"] . "&amp;cmd2=pdf' target='_blank'>Scarica l'elenco delle radio in formato PDF</a><br />
 </div>\n";
 ?>
