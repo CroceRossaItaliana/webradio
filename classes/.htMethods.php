@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180315.016
+ * @version 20180508.017
  */
 
 /*===========================================================================
@@ -16,15 +16,17 @@ class Methods {
     if($posizione) {
       $posizione = $GLOBALS["DBL"]->query("SELECT X(0x" . bin2hex($posizione) . ") AS x, Y(0x" . bin2hex($posizione) . ") AS y");
       if($posizione) {
-        $posizione = $posizione->fetch_assoc();
-        if($posizione) {
-          $posizione["x"] = Fields::decimalToSexagesimal($posizione["x"]);
-          $posizione["y"] = Fields::decimalToSexagesimal($posizione["y"]);
+        $decimalPosizione = $posizione->fetch_assoc();
+        if($decimalPosizione) {
+          $posizione = array();
+          $posizione["x"] = Fields::decimalToSexagesimal($decimalPosizione["x"]);
+          $posizione["y"] = Fields::decimalToSexagesimal($decimalPosizione["y"]);
         }
       }
     }
     return array(
       "htmlCode" => "Lat: " . $posizione["y"]["d"] . "° " . $posizione["y"]["m"] . "' " . sprintf("%0.1f", $posizione["y"]["s"]) . "&quot;; Long: " . $posizione["x"]["d"] . "° " . $posizione["x"]["m"] . "' " . sprintf("%0.1f", $posizione["x"]["s"]) . "&quot;; Alt: " . $altitudine . "m",
+      "posizione" => array("lat"=>$decimalPosizione["y"], "long"=>$decimalPosizione["x"]),
       "extraLink" => "",
     );
   }
