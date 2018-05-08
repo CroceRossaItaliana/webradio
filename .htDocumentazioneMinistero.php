@@ -1,12 +1,21 @@
 <?php
-//20110409.056
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180508.058
+ */
+
 $PAGE_TITLE = "Documentazione Ministero";
 
 $PAGE_CONTENT = "<h1>Documentazione Ministero</h1>\n";
 
+$USER_TYPE = $LOGIN->getUserType()["id"];
+$USER_MAGLIE = arraizeCsv($LOGIN->getUserData("maglia"));
+
 switch($_REQUEST["cmd2"]) {
   case "maglie":
     if(is_numeric($_GET["maglia"])) {
+      if(($USER_TYPE == 3) && !in_array($_GET["maglia"], $USER_MAGLIE)) die("...");
       $maglia = $DBL->query("SELECT * FROM maglie WHERE id=" . $_GET["maglia"])->fetch_object();
       if(!$maglia->id || ($maglia->id != $_GET["maglia"])) die(".");
 
@@ -52,15 +61,19 @@ switch($_REQUEST["cmd2"]) {
     $pdf->SetSubject("Scheda riepilogativa Radiomobile", true);
     $pdf->SetTitle("Scheda riepilogativa Radiomobile", true);
 
+    //Applica filtro maglie
+    $FILTRO_MAGLIE = false;
+    if($USER_TYPE == 3) $FILTRO_MAGLIE = $USER_MAGLIE;
+
     //Copertina caratteristiche generali
     $pdf->AddPage();
-    $pdf->drawCover();
+    $pdf->drawCover($FILTRO_MAGLIE);
 
     //Disegna elenco veicolari
-    $pdf->drawVeicolari();
+    $pdf->drawVeicolari($FILTRO_MAGLIE);
 
     //Disegna elenco portatili
-    $pdf->drawPortatili();
+    $pdf->drawPortatili($FILTRO_MAGLIE);
 
     //Butta fuori PDF
     $pdf->Output();
@@ -70,6 +83,7 @@ switch($_REQUEST["cmd2"]) {
     break;
 
   default:
+
     $PAGE_CONTENT .= "<h2>Generazione documenti per il Ministero</h2>
     <form method='get' action='" . $_SERVER["SCRIPT_NAME"] . "'>
       <input type='hidden' name='cmd' value='" . $_REQUEST["cmd"] . "' />
@@ -77,6 +91,7 @@ switch($_REQUEST["cmd2"]) {
       <div style='margin-top:40px; text-align:center;'>
         Selezione maglia: <select name='maglia'>\n";
           foreach(getElencoMaglie() as $magliaId=>$magliaNome) {
+            if(($USER_TYPE == 3) && !in_array($magliaId, $USER_MAGLIE)) continue;
             $PAGE_CONTENT .= "<option value='" . $magliaId . "'>" . htmlentities($magliaNome, ENT_QUOTES, "utf-8") . "</option>\n";
           }
         $PAGE_CONTENT .= "</select>

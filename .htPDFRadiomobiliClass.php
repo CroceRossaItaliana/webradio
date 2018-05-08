@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180329.010
+ * @version 20180508.012
  */
 
 /*===========================================================================
@@ -50,7 +50,7 @@ class PDF extends FPDF {
   /*---------------------------------------------------------------------------
   - Function: drawCover()
   ---------------------------------------------------------------------------*/
-  function drawCover() {
+  function drawCover($filtroMaglie=false) {
     $this->SetY(90);
     $this->SetFont("Times", "B", 20);
     $this->Cell(0, 20, utf8_decode("CARATTERISTICHE GENERALI"), 0, 0, "C");
@@ -79,8 +79,8 @@ class PDF extends FPDF {
     $this->Cell($col1, 24, utf8_decode("Chiamata selettiva"));
     $this->Cell($col2, 24, utf8_decode("XXXXXX"), 0, 1);
 
-    $totaleVeicolari = $GLOBALS["DBL"]->query("SELECT id FROM radio WHERE tipo=2 AND escludiDaSchedaTecnica=0")->num_rows;
-    $totalePortatili = $GLOBALS["DBL"]->query("SELECT id FROM radio WHERE tipo=3 AND escludiDaSchedaTecnica=0")->num_rows;
+    $totaleVeicolari = $GLOBALS["DBL"]->query("SELECT id FROM radio WHERE tipo=2 AND escludiDaSchedaTecnica=0" . (($filtroMaglie && is_array($filtroMaglie)) ? " AND maglia IN(" . implode(",", $filtroMaglie) . ")" : ""))->num_rows;
+    $totalePortatili = $GLOBALS["DBL"]->query("SELECT id FROM radio WHERE tipo=3 AND escludiDaSchedaTecnica=0" . (($filtroMaglie && is_array($filtroMaglie)) ? " AND maglia IN(" . implode(",", $filtroMaglie) . ")" : ""))->num_rows;
     $this->Cell($col1, 24, utf8_decode("N° totale stazioni terminali"));
     $this->Cell($col2, 24, utf8_decode($totaleVeicolari + $totalePortatili), 0, 1);
 
@@ -108,7 +108,7 @@ class PDF extends FPDF {
   /*---------------------------------------------------------------------------
   - Function: drawVeicolari()
   ---------------------------------------------------------------------------*/
-  function drawVeicolari() {
+  function drawVeicolari($filtroMaglie=false) {
     $columns = array(
       "1" => array("title"=>"N.Veicolari", "width"=>64),
       "2" => array("title"=>"Apparati", "width"=>165),
@@ -117,7 +117,7 @@ class PDF extends FPDF {
     );
 
     $i = $row = 0;
-    $rs = $GLOBALS["DBL"]->query("SELECT COUNT(id) AS numeroVeicolari, modelloRadio FROM radio WHERE tipo=2 AND escludiDaSchedaTecnica=0 GROUP BY modelloRadio ORDER BY numeroVeicolari DESC");
+    $rs = $GLOBALS["DBL"]->query("SELECT COUNT(id) AS numeroVeicolari, modelloRadio FROM radio WHERE tipo=2 AND escludiDaSchedaTecnica=0 " . (($filtroMaglie && is_array($filtroMaglie)) ? "AND maglia IN(" . implode(",", $filtroMaglie) . ") " : "") . "GROUP BY modelloRadio ORDER BY numeroVeicolari DESC");
     while($rc = $rs->fetch_object()) {
       $this->SetLeftMargin(15);
       if(($i == 0) || ($row > 20)) {
@@ -165,7 +165,7 @@ class PDF extends FPDF {
   /*---------------------------------------------------------------------------
   - Function: drawPortatili()
   ---------------------------------------------------------------------------*/
-  function drawPortatili() {
+  function drawPortatili($filtroMaglie=false) {
     $columns = array(
       "1" => array("title"=>"N.Portatili", "width"=>58),
       "2" => array("title"=>"Apparati", "width"=>140),
@@ -174,7 +174,7 @@ class PDF extends FPDF {
     );
 
     $i = $row = 0;
-    $rs = $GLOBALS["DBL"]->query("SELECT COUNT(id) AS numeroPortatili, modelloRadio FROM radio WHERE tipo=3 AND escludiDaSchedaTecnica=0 GROUP BY modelloRadio ORDER BY numeroPortatili DESC");
+    $rs = $GLOBALS["DBL"]->query("SELECT COUNT(id) AS numeroPortatili, modelloRadio FROM radio WHERE tipo=3 AND escludiDaSchedaTecnica=0 " . (($filtroMaglie && is_array($filtroMaglie)) ? "AND maglia IN(" . implode(",", $filtroMaglie) . ") " : "") . "GROUP BY modelloRadio ORDER BY numeroPortatili DESC");
     while($rc = $rs->fetch_object()) {
       $this->SetLeftMargin(15);
       if(($i == 0) || ($row > 20)) {

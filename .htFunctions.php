@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180406.073
+ * @version 20180508.074
  */
 
 function dbEsc($string) {
@@ -234,6 +234,16 @@ function logMessage($message, $username="") {
 
 function escapeCsv($string) {
   return "\"" . str_replace("\"", "\"\"", trim($string)) . "\"";
+}
+
+function arraizeCsv($csv, $separator=";") {
+  $csv = explode($separator, $csv);
+  $array = array();
+  foreach($csv as $item) {
+    $item = trim($item);
+    if(strlen($item) > 0) $array[] = $item;
+  }
+  return $array;
 }
 
 function isActionAllowed($type) {
