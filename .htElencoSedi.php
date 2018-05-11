@@ -1,5 +1,10 @@
 <?php
-//20110623.018
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180511.019
+ */
+
 require("fpdf16/fpdf.php");
 
 class PDF extends FPDF {
@@ -35,7 +40,7 @@ class PDF extends FPDF {
   function Footer() {
     $this->SetY(-60);
     $this->SetFont("Arial", "", 5);
-    $this->MultiCell(380, 7, utf8_decode("I CODICI DA ITALIA 99-90 (999990) AD ITALIA 99-98 (999998) SONO ASSEGNATI ALLA COMMISSIONE NAZIONALE TLC DEL COMITATO NAZIONALE\nI CODICI DI IDENTIFICAZIONE ASSEGNATI AI REFERENTI REGIONALI TLC SONO COSTITUITI DAL NOME/CAP DEL CAPOLUOGO DI REGIONE SEGUITO DALLE CIFRE 7000 (ES. ROMA 70-00 - R.R. LAZIO)\nI CODICI DI IDENTIFICAZIONE ASSEGNATI AI REFERENTI PROVINCIALI TLC SONO COSTITUITI DAL NOME/CAP DEL CAPOLUOGO DI PROVINCIA SEGUITO DALLE CIFRE 8000 (ES. ANCONA 80-00 - R.P. ANCONA)"), 0, "C");
+    $this->MultiCell(380, 7, utf8_decode("I CODICI DA ITALIA 99-90 (999990) AD ITALIA 99-99 (999999) SONO ASSEGNATI ALLA COMMISSIONE NAZIONALE RADIO DEL COMITATO CENTRALE\nI CODICI DI IDENTIFICAZIONE ASSEGNATI AI REFERENTI REGIONALI RADIOCOMUNICAZIONI SONO COSTITUITI DAL NOME/CAP DEL CAPOLUOGO DI REGIONE SEGUITO DALLE CIFRE 7000 (ES. ROMA 70-00 - D.R.R. LAZIO)\nI CODICI DI IDENTIFICAZIONE ASSEGNATI AI REFERENTI PROVINCIALI RADIOCOMUNICAZIONI SONO COSTITUITI DAL NOME/CAP DEL CAPOLUOGO DI PROVINCIA SEGUITO DALLE CIFRE 8000 (ES. ANCONA 80-00 - R.P.R. ANCONA)"), 0, "C");
     $this->Ln(5);
     $this->SetFont("Arial", "I", 6);
     $this->Cell(0, 8, "Generato il " . date("d/m/Y") . ", alle ore " . date("H:i"), 0, 0, "L");
@@ -50,7 +55,7 @@ class PDF extends FPDF {
     $provinciaCurrent = "";
     $lineHeight = 8;
     $showBorder = 0;
-    $rs = $GLOBALS["DBL"]->query("SELECT users.realName, users.provincia, radio.maglia, radio.localita, radio.siglaRadio FROM radio INNER JOIN users ON radio.unitaCri=users.username AND radio.tipo=1 AND escludiDaElencoSedi=false AND users.type>2 ORDER BY users.provincia, radio.siglaRadio");
+    $rs = $GLOBALS["DBL"]->query("SELECT users.realName, users.provincia, radio.maglia, radio.localita, radio.siglaRadio FROM radio INNER JOIN users ON radio.unitaCri=users.username AND radio.tipo=1 AND escludiDaElencoSedi=false AND users.type>2 ORDER BY users.provincia, radio.localita");
     $maglieCanali = array();
     $bgcolor = true;
     while($rc = $rs->fetch_object()) {
