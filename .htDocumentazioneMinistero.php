@@ -2,14 +2,15 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180508.058
+ * @version 20180521.059
  */
 
 $PAGE_TITLE = "Documentazione Ministero";
 
 $PAGE_CONTENT = "<h1>Documentazione Ministero</h1>\n";
 
-$USER_TYPE = $LOGIN->getUserType()["id"];
+$USER_TYPE = $LOGIN->getUserType();
+$USER_TYPE = $USER_TYPE["id"];
 $USER_MAGLIE = arraizeCsv($LOGIN->getUserData("maglia"));
 
 switch($_REQUEST["cmd2"]) {

@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180405.004
+ * @version 20180521.005
  */
 
 $FILENAME = "/filez/docs/RichiestaRipetitoriTemporanei.pdf";
@@ -17,7 +17,9 @@ $PAGE_CONTENT = "<h1>Richiesta Ripetitori Temporanei</h1>
 <div><a href='" . $FILENAME . "' target='_blank'>Scarica Modulo per Richiesta Ripetitori Temporanei</a></div>";
 
 //Gestione file
-if(in_array($LOGIN->getUserType()["id"], array(1, 2))) {
+$USER_TYPE = $LOGIN->getUserType();
+$USER_TYPE = $USER_TYPE["id"];
+if(in_array($USER_TYPE, array(1, 2))) {
   $PAGE_CONTENT .= "<h1 style='margin:50px 0 10px;'>Gestione file (only admin)</h1>";
   if($_FILES["doc"] && ($_FILES["doc"]["error"] == 0) && ($_FILES["doc"]["type"] == "application/pdf")) {
     logMessage("Modulo Richiesta Ripetitori Temporanei sostituito");
