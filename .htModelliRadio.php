@@ -1,5 +1,10 @@
 <?php
-//20120112.014
+/**
+ * @package CRI Web Radio
+ * @author WizLab.it
+ * @version 20180705.016
+ */
+
 $PAGE_TITLE = "Modelli Radio";
 
 $FIELDS = Objects::getModelliRadioFields();
@@ -64,6 +69,7 @@ switch($_REQUEST["cmd2"]) {
         "id" => array("name"=>"ID", "type"=>"field", "hideColumn"=>true),
         "produttore" => array("name"=>"Produttore", "type"=>"tagList", "values"=>$_SESSION["RADIO_PRODUTTORI"]),
         "modello" => array("name"=>"Modello", "type"=>"field"),
+        "fuoriUso" => array("name"=>"Fuori uso", "type"=>"arrayIndex", "values"=>BasicTable::$basicStatus),
         "status" => array("name"=>"Status", "type"=>"arrayIndex", "values"=>BasicTable::$basicStatus),
       ),
       "table" => $TABLE,

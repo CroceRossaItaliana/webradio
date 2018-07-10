@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180329.051
+ * @version 20180705.053
  */
 
 /*===========================================================================
@@ -320,6 +320,9 @@ class PDF extends FPDF {
     $i = $row = 0;
     $rs = $GLOBALS["DBL"]->query("SELECT *, X(posizione) AS x, Y(posizione) AS y FROM radio WHERE maglia=" . $this->magliaId . " AND tipo=1 AND escludiDaSchedaTecnica=0 ORDER BY localita");
     while($rc = $rs->fetch_object()) {
+      $radio = getRadioById($rc->modelloRadio);
+      if($radio["fuoriUso"]) continue;
+
       $this->SetLeftMargin(15);
       if(($i == 0) || ($row > 11)) {
         $row = 0;
@@ -366,7 +369,6 @@ class PDF extends FPDF {
       $this->Write(12, utf8_decode(sprintf("%02d", $long["d"]) . sprintf("%02d", $long["m"]) . sprintf("%02d", $long["s"])));
 
       //Colonna 2
-      $radio = getRadioById($rc->modelloRadio);
       $this->SetY($rowY);
       $this->SetLeftMargin(15 + $columns["1"]["width"]);
       $this->SetFont("", "I");

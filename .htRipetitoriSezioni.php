@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180406.032
+ * @version 20180708.033
  */
 
 list($filtroUnitaCri, $unitaCriValues, $WHERE, $extraQuerySet) = setObjectFilter();
@@ -63,6 +63,7 @@ switch($_REQUEST["cmd2"]) {
     $saveRecord = BasicTable::saveRecord($config);
     $PAGE_CONTENT .= $saveRecord["htmlCode"];
     logMessage((($saveRecord["action"] == "add") ? "Inserita" : "Modificata") . " sezione del ripetitore codice #" . $saveRecord["recordId"]);
+    mail("antonio.oliveri@cri.it", "TLCensus - Modifica sezione ripetitore", "L'utente " . $LOGIN->getUserData("username") . " ha aggiunto/modificato la sezione ripetitore #" . $_POST[BasicTable::getIdField($FIELDS)] . " del ripetitore #" . $_REQUEST["idRipetitore"] . " il " . date("d/m/Y") . " alle " . date("H:i:s"));
     break;
 
   case "del":

@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180508.012
+ * @version 20180705.015
  */
 
 /*===========================================================================
@@ -119,6 +119,9 @@ class PDF extends FPDF {
     $i = $row = 0;
     $rs = $GLOBALS["DBL"]->query("SELECT COUNT(id) AS numeroVeicolari, modelloRadio FROM radio WHERE tipo=2 AND escludiDaSchedaTecnica=0 " . (($filtroMaglie && is_array($filtroMaglie)) ? "AND maglia IN(" . implode(",", $filtroMaglie) . ") " : "") . "GROUP BY modelloRadio ORDER BY numeroVeicolari DESC");
     while($rc = $rs->fetch_object()) {
+      $radio = getRadioById($rc->modelloRadio);
+      if($radio["fuoriUso"]) continue;
+
       $this->SetLeftMargin(15);
       if(($i == 0) || ($row > 20)) {
         $row = 0;
@@ -137,7 +140,6 @@ class PDF extends FPDF {
       $this->Write(11 * 2, utf8_decode($rc->numeroVeicolari));
 
       //Colonna 2
-      $radio = getRadioById($rc->modelloRadio);
       $this->SetY($rowY);
       $this->SetLeftMargin(15 + $columns["1"]["width"]);
       $this->Write(11, utf8_decode($radio["produttore"] . " " . $radio["modello"]));
@@ -176,6 +178,9 @@ class PDF extends FPDF {
     $i = $row = 0;
     $rs = $GLOBALS["DBL"]->query("SELECT COUNT(id) AS numeroPortatili, modelloRadio FROM radio WHERE tipo=3 AND escludiDaSchedaTecnica=0 " . (($filtroMaglie && is_array($filtroMaglie)) ? "AND maglia IN(" . implode(",", $filtroMaglie) . ") " : "") . "GROUP BY modelloRadio ORDER BY numeroPortatili DESC");
     while($rc = $rs->fetch_object()) {
+      $radio = getRadioById($rc->modelloRadio);
+      if($radio["fuoriUso"]) continue;
+
       $this->SetLeftMargin(15);
       if(($i == 0) || ($row > 20)) {
         $row = 0;
@@ -194,7 +199,6 @@ class PDF extends FPDF {
       $this->Write(11 * 2, utf8_decode($rc->numeroPortatili));
 
       //Colonna 2
-      $radio = getRadioById($rc->modelloRadio);
       $this->SetY($rowY);
       $this->SetLeftMargin(15 + $columns["1"]["width"]);
       $this->Write(11, utf8_decode($radio["produttore"] . "\n" . $radio["modello"]));

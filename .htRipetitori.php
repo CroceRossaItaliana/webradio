@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180406.043
+ * @version 20180708.045
  */
 
 $PAGE_TITLE = "Ripetitori";
@@ -58,6 +58,7 @@ switch($_REQUEST["cmd2"]) {
     $saveRecord = BasicTable::saveRecord($config);
     $PAGE_CONTENT .= $saveRecord["htmlCode"];
     logMessage((($saveRecord["action"] == "add") ? "Inserito" : "Modificato") . " ripetitore codice #" . $saveRecord["recordId"]);
+    mail("antonio.oliveri@cri.it", "TLCensus - Modifica ripetitore", "L'utente " . $LOGIN->getUserData("username") . " ha aggiunto/modificato il ripetitore #" . $_POST[BasicTable::getIdField($FIELDS)] . " il " . date("d/m/Y") . " alle " . date("H:i:s"));
     break;
 
   case "del":

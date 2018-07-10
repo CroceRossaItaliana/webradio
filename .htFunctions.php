@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180508.074
+ * @version 20180706.076
  */
 
 function dbEsc($string) {
@@ -16,7 +16,7 @@ function jsRedirect($url) {
 function getModelliRadio() {
   if(($_SESSION["CACHE_TIMERS"]["ModelliRadio"] < $GLOBALS["REGISTRY"]->getValue("lastModelliRadioChange")) || !isset($_SESSION["CACHE_MODELLI_RADIO"]) || !is_array($_SESSION["CACHE_MODELLI_RADIO"])) {
     $_SESSION["CACHE_MODELLI_RADIO"] = array();
-    $rsModelliRadio = $GLOBALS["DBL"]->query("SELECT id, produttore, modello, omologazione FROM modelliRadio WHERE status=true ORDER BY produttore, modello");
+    $rsModelliRadio = $GLOBALS["DBL"]->query("SELECT id, produttore, modello, omologazione, fuoriUso FROM modelliRadio WHERE status=true ORDER BY produttore, modello");
     while($rcModelliRadio = $rsModelliRadio->fetch_object()) {
       $_SESSION["CACHE_MODELLI_RADIO"][$rcModelliRadio->id] = array(
         "title" => substr($rcModelliRadio->produttore, 1, -1) . " - " . $rcModelliRadio->modello,
@@ -24,6 +24,7 @@ function getModelliRadio() {
         "produttore" => substr($rcModelliRadio->produttore, 1, -1),
         "modello" => $rcModelliRadio->modello,
         "omologazione" => $rcModelliRadio->omologazione,
+        "fuoriUso" => $rcModelliRadio->fuoriUso,
       );
     }
     $_SESSION["CACHE_TIMERS"]["ModelliRadio"] = time();
@@ -255,6 +256,7 @@ function isActionAllowed($type) {
     case "ripetitoriSezioni":
       if($userType == 2) return true; //Comitato nazionale
       if($userType == 10) return true; //Isp. Corpo Militare Volontario
+      if($GLOBALS["LOGIN"]->getUserData("gestioneRipetitori") == 1) return true;
       break;
     case "radio":
       return true;
