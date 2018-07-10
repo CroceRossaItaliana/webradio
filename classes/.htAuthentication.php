@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180508.091
+ * @version 20180706.094
  */
 
 /*===========================================================================
@@ -28,12 +28,12 @@ class Authentication {
   private $sections = array(
     "Home" => array("title"=>"Home", "types"=>"all"),
     "AlboOperatoriTLC" => array("title"=>"Albo Operatori TLC", "types"=>"login"),
-  	 "Utenti" => array("title"=>"Utenti", "types"=>array(1)),
+    "Utenti" => array("title"=>"Utenti", "types"=>array(1)),
     "Radio" => array("title"=>"Radio", "types"=>array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)),
-    "Ripetitori" => array("title"=>"Ripetitori", "types"=>array(0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11)),
+    "Ripetitori" => array("title"=>"Ripetitori", "types"=>array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)),
+    "RipetitoriSezioni" => array("title"=>"Ripetitori Sezioni", "types"=>array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), "hideFromMenu"=>true),
     "Mappa" => array("title"=>"Mappa", "types"=>array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)),
     "Docs" => array("title"=>"Documenti", "types"=>array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), "hideFromMenu"=>true),
-    "RipetitoriSezioni" => array("title"=>"Ripetitori Sezioni", "types"=>array(0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11), "hideFromMenu"=>true),
     "DocumentazioneMinistero" => array("title"=>"Documentazione Ministero", "types"=>array(1, 2, 3, 11)),
     "ModelliRadio" => array("title"=>"Modelli Radio", "types"=>array(1)),
     "ModelliRipetitori" => array("title"=>"Modelli Ripetitori", "types"=>array(1)),

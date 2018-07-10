@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180329.134
+ * @version 20180706.136
  */
 
 /*===========================================================================
@@ -25,6 +25,7 @@ class Objects {
       "nomeResponsabile" => array("name"=>"Nome responsabile", "size"=>40, "maxlen"=>40, "mandatory"=>true),
       "telefonoResponsabile" => array("name"=>"Telefono responsabile", "size"=>30, "maxlen"=>30, "mandatory"=>true),
       "emailResponsabile" => array("name"=>"E-mail responsabile", "type"=>"email", "size"=>60, "maxlen"=>60, "mandatory"=>true),
+      "gestioneRipetitori" => array("name"=>"Gestione ripetitori", "type"=>"select", "values"=>BasicTable::$basicStatus),
       "status" => array("name"=>"Status", "type"=>"select", "mandatory"=>true, "values"=>BasicTable::$basicStatus),
     );
     return $fields;
@@ -66,7 +67,7 @@ class Objects {
       "note" => array("name"=>"Note", "type"=>"textarea", "cols"=>50, "rows"=>5),
       "escludiDaElencoSedi" => array("name"=>"Escludi da elenco sedi", "type"=>"select", "values"=>BasicTable::$basicStatus),
       "escludiDaSchedaTecnica" => array("name"=>"Escludi da scheda tecnica", "type"=>"select", "values"=>BasicTable::$basicStatus),
-    	"ultimaModificaData" => array("name"=>"Data ultima modifica", "manualQuery"=>"true"),
+    	 "ultimaModificaData" => array("name"=>"Data ultima modifica", "manualQuery"=>"true"),
       "ultimaModificaUser" => array("name"=>"Utente ultima modifica", "manualQuery"=>"true"),
     );
 
@@ -154,7 +155,8 @@ class Objects {
       "modello" => array("name"=>"Modello", "size"=>30, "maxlen"=>30, "mandatory"=>true),
       "capitolato" => array("name"=>"A capitolato", "type"=>"select", "values"=>$GLOBALS["RADIO_CAPITOLATO"]),
       "omologazione" => array("name"=>"Omologazione", "type"=>"select", "values"=>BasicTable::$basicStatus),
-    	"image" => array("name"=>"Immagine JPG", "type"=>"fileImage", "tip"=>"Immagine in formato <b>JPG</b>", "path"=>$GLOBALS["PATHS"]["modelliRadioJpg"], "widthBig"=>250, "widthSmall"=>90),
+      "fuoriUso" => array("name"=>"Fuori uso", "type"=>"select", "values"=>BasicTable::$basicStatus),
+    	 "image" => array("name"=>"Immagine JPG", "type"=>"fileImage", "tip"=>"Immagine in formato <b>JPG</b>", "path"=>$GLOBALS["PATHS"]["modelliRadioJpg"], "widthBig"=>250, "widthSmall"=>90),
       "status" => array("name"=>"Status", "type"=>"select", "mandatory"=>true, "values"=>BasicTable::$basicStatus),
     );
     return $fields;
