@@ -2,7 +2,7 @@
 /**
  * @package CRI Web Radio
  * @author WizLab.it
- * @version 20180706.076
+ * @version 20180711.077
  */
 
 function dbEsc($string) {
@@ -255,6 +255,7 @@ function isActionAllowed($type) {
     case "ripetitori":
     case "ripetitoriSezioni":
       if($userType == 2) return true; //Comitato nazionale
+      if($userType == 3) return true; //Comitato regionale
       if($userType == 10) return true; //Isp. Corpo Militare Volontario
       if($GLOBALS["LOGIN"]->getUserData("gestioneRipetitori") == 1) return true;
       break;
